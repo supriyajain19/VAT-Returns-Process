@@ -1,0 +1,879 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="APVAtdetails" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_TransactionCode2" Type="InArgument(x:String)" />
+    <x:Property Name="var_currentDate" Type="InArgument(s:DateTime)" />
+    <x:Property Name="out_Year" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Month" Type="OutArgument(x:String)" />
+    <x:Property Name="in_TransactionCode1" Type="InArgument(x:String)" />
+    <x:Property Name="out_CurrentMonth" Type="OutArgument(x:Int32)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1721.6,10654.4</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>APVAtdetails_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+      <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <Sequence sap2010:Annotation.AnnotationText="This sequence will fetch all VAT Details report on monthly ,quartely, ni monthlty basic." DisplayName="AP VAT Details Report Extraction" sap:VirtualizedContainerService.HintSize="1701.6,10594.4" sap2010:WorkflowViewState.IdRef="Sequence_35">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="s:String[]" Name="var_forAllTex" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence DisplayName="Sequence to assign Argument" sap:VirtualizedContainerService.HintSize="1660,352.8" sap2010:WorkflowViewState.IdRef="Sequence_906">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Assign DisplayName="Assign arg for year" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_97">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_Year]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[DateTime.Now.Year.ToString]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign arg for month" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_98">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_Month]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[New date(now.Year, now.Month,1).AddDays(-1).ToString("MMyy")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign for current month" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_99">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[out_CurrentMonth]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[new DateTime(now.Year,now.Month,1).Month]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Directory  in l drive for year/month" sap:VirtualizedContainerService.HintSize="1660,22.4" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[in_config(&quot;FilePath&quot;).ToString+&quot;\&quot;+out_Year.ToString+&quot;\&quot;+out_Month.ToString+&quot;\&quot;]" />
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Deleting reports." DisplayName="Invoke DeleteReports workflow" sap:VirtualizedContainerService.HintSize="1660,116" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Custom Workflows\DeleteReports.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InvokeWorkflowFile>
+    <Sequence sap2010:Annotation.AnnotationText="It will fetch report monthly ,bimonthly,quartely.annually." DisplayName="AllReturns" sap:VirtualizedContainerService.HintSize="1660,9613.6" sap2010:WorkflowViewState.IdRef="Sequence_34">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="s:String[]" Name="var_forAllReturn" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch DisplayName="Try Catch #2" sap:VirtualizedContainerService.HintSize="1617.6,9520.8" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <TryCatch.Try>
+          <Sequence DisplayName="seq all retirns" sap:VirtualizedContainerService.HintSize="1572,8763.2" sap2010:WorkflowViewState.IdRef="Sequence_92">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message #2" sap:VirtualizedContainerService.HintSize="1530.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_57" Level="Info" Message="[&quot;SAP Processing Start&quot;]" />
+            <Assign DisplayName="Assign for layout SII and INTL" sap:VirtualizedContainerService.HintSize="1530.4,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+              <Assign.To>
+                <OutArgument x:TypeArguments="s:String[]">[var_forAllTex]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="s:String[]">[in_Config("ForAllTEX").ToString.Split(";"c)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each for all returns" sap:VirtualizedContainerService.HintSize="1530.4,8437.6" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[var_forAllTex]">
+              <ui:ForEach.Body>
+                <ActivityAction x:TypeArguments="x:String">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:String" Name="item1" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body for all retuen" sap:VirtualizedContainerService.HintSize="1495.2,8303.2" sap2010:WorkflowViewState.IdRef="Sequence_91">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Switch x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Switch for all returns" DisplayName="Switch for all return" Expression="[item1]" sap:VirtualizedContainerService.HintSize="1453.6,8210.4" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Sequence x:Key="SII_NEW_230" sap2010:Annotation.AnnotationText="For All returns eg. Monthly etc." DisplayName="For All Return #" sap:VirtualizedContainerService.HintSize="1413.6,4081.6" sap2010:WorkflowViewState.IdRef="Sequence_693">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="Assign for all returns" sap:VirtualizedContainerService.HintSize="1372,60" sap2010:WorkflowViewState.IdRef="Assign_53">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="s:String[]">[var_forAllReturn]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="s:String[]">[in_Config("ForAllReturn").ToString.Split(";"c)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each for All Return #1" sap:VirtualizedContainerService.HintSize="1372,3888.8" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[var_forAllReturn]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="x:String">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="All Reports Switch Case" sap:VirtualizedContainerService.HintSize="1336.8,3754.4" sap2010:WorkflowViewState.IdRef="Sequence_692">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Switch x:TypeArguments="x:String" DisplayName="Switch for All Returns" Expression="[item]" sap:VirtualizedContainerService.HintSize="1295.2,3661.6" sap2010:WorkflowViewState.IdRef="Switch`1_4">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Sequence x:Key="Monthly" DisplayName="Monthly Returns" sap:VirtualizedContainerService.HintSize="416.8,667.2" sap2010:WorkflowViewState.IdRef="Sequence_909">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Sequence sap2010:Annotation.AnnotationText="This sequence will fetch Monthly reports." DisplayName="Monthly Returns #1" sap:VirtualizedContainerService.HintSize="375.2,574.4" sap2010:WorkflowViewState.IdRef="Sequence_908">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:LogMessage DisplayName="Log Message #3" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_131" Level="Info" Message="[&quot;Monthly Reports start&quot;]">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:LogMessage>
+                                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke MonthlyExtractAPAuditTrail workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="Custom Workflows\MonthlyExtractAPAuditTrail.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                          <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:InvokeWorkflowFile>
+                                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke MonthlyExtractAPDetailsReport workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="Custom Workflows\MonthlyExtractAPDetailsReport.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                          <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                          <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:InvokeWorkflowFile>
+                                      <ui:LogMessage DisplayName="Log Message #4" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_132" Level="Info" Message="[&quot;Monthly Reports end&quot;]" />
+                                    </Sequence>
+                                  </Sequence>
+                                  <Sequence x:Key="Bi-Monthly" sap2010:Annotation.AnnotationText="Bi Monthly Return" DisplayName="Bi Monthly Return" sap:VirtualizedContainerService.HintSize="877.6,781.6" sap2010:WorkflowViewState.IdRef="Sequence_913">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If Condition="[(out_CurrentMonth mod 2 ) = 0]" DisplayName="If for bimonthly returns" sap:VirtualizedContainerService.HintSize="836,688.8" sap2010:WorkflowViewState.IdRef="If_99">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="Sequence bi monthly" sap:VirtualizedContainerService.HintSize="416.8,539.2" sap2010:WorkflowViewState.IdRef="Sequence_911">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Sequence DisplayName="Bi Monthly(DEC-JAN)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_910">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage DisplayName="Log Message #5" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_133" Level="Info" Message="[&quot;BiMonthly Start&quot;]" />
+                                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiMonthlyAPAuditTrailReport(DEC-JAN ) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="Custom Workflows\BiMonthlyAPAuditTrailReport(DEC-JAN ).xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:InvokeWorkflowFile>
+                                            <ui:LogMessage DisplayName="Log Message#6" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_134" Level="Info" Message="[&quot;BiMonthly END&quot;]" />
+                                          </Sequence>
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence DisplayName="Bi Monthly(JAN-FEB)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_912">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message #7" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_135" Level="Info" Message="[&quot;BiMonthly Start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiMonthlyAPAuditTrailReport(JAN-FEB ) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="Custom Workflows\BiMonthlyAPAuditTrailReport(JAN-FEB ).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message #8" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_136" Level="Info" Message="[&quot;BiMonthly End&quot;]" />
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                  <Sequence x:Key="Quarterly" sap2010:Annotation.AnnotationText="Quartly Returns" DisplayName="Quartly Returns" sap:VirtualizedContainerService.HintSize="1255.2,931.2" sap2010:WorkflowViewState.IdRef="Sequence_917">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If Condition="[( out_CurrentMonth  mod 3).Equals(1)]" DisplayName="If for Quartely reports" sap:VirtualizedContainerService.HintSize="1213.6,838.4" sap2010:WorkflowViewState.IdRef="If_101">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="Quarter(JAN-MAR)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_914">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message LM#10" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_137" Level="Info" Message="[&quot;Quartely Start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke QuarterlyAPAuditTrailReport(JAN-MAR) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="Custom Workflows\QuarterlyAPAuditTrailReport(JAN-MAR).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message #LM05" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_138" Level="Info" Message="[&quot;Quartely end&quot;]" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence DisplayName="Quarter(FEB-APR)" sap:VirtualizedContainerService.HintSize="794.4,688.8" sap2010:WorkflowViewState.IdRef="Sequence_916">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <If Condition="[(out_CurrentMonth mod 3).Equals(2)]" DisplayName="If quarter is feb-apr(445)" sap:VirtualizedContainerService.HintSize="752.8,596" sap2010:WorkflowViewState.IdRef="If_100">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <If.Then>
+                                              <Sequence DisplayName="Quarte report(445)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_915">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <ui:LogMessage DisplayName="Log Message :LM#11" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_139" Level="Info" Message="[&quot;Quartely Start&quot;]" />
+                                                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke QuarterlyAPAuditTrailReport(FEB-APR) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="Custom Workflows\QuarterlyAPAuditTrailReport(FEB-APR).xaml">
+                                                  <ui:InvokeWorkflowFile.Arguments>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                                    <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                                  </ui:InvokeWorkflowFile.Arguments>
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                </ui:InvokeWorkflowFile>
+                                                <ui:LogMessage DisplayName="Log Message #LM 06" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_140" Level="Info" Message="[&quot;Quartely end&quot;]" />
+                                              </Sequence>
+                                            </If.Then>
+                                            <If.Else>
+                                              <ui:LogMessage DisplayName="Log Message lm#07" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_141" Level="Info" Message="[&quot;No reports bacuse not 445 calender&quot;]">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                              </ui:LogMessage>
+                                            </If.Else>
+                                          </If>
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                  <Sequence x:Key="Bi Annually" sap2010:Annotation.AnnotationText="Bi AnnuallyReturn" DisplayName="Bi AnnuallyReturn" sap:VirtualizedContainerService.HintSize="836,781.6" sap2010:WorkflowViewState.IdRef="Sequence_920">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If Condition="[(out_CurrentMonth).Equals(01) or out_CurrentMonth.Equals(07)]" DisplayName="If for bi annual reports" sap:VirtualizedContainerService.HintSize="794.4,688.8" sap2010:WorkflowViewState.IdRef="If_102">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="BiAnnual" sap:VirtualizedContainerService.HintSize="416.8,539.2" sap2010:WorkflowViewState.IdRef="Sequence_919">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Sequence DisplayName="Extract Report" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_918">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage DisplayName="Log Message LM#08" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_142" Level="Info" Message="[&quot;Bi Annual Start&quot;]" />
+                                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiAnnualAPAuditTrailReports workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="Custom Workflows\BiAnnualAPAuditTrailReports.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                                <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:InvokeWorkflowFile>
+                                            <ui:LogMessage DisplayName="Log Message :LM#09" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_143" Level="Info" Message="[&quot;Bi Annual end&quot;]" />
+                                          </Sequence>
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <ui:Comment sap:VirtualizedContainerService.HintSize="333.6,56" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Else Bi Annual flase" />
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </Switch>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:ForEach>
+                      </Sequence>
+                      <Sequence x:Key="INTL TEX" sap2010:Annotation.AnnotationText="For All returns eg. Monthly etc." DisplayName="For All Return #3" sap:VirtualizedContainerService.HintSize="1413.6,3768" sap2010:WorkflowViewState.IdRef="Sequence_827">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="Assign: forAllret Arr ASGN" sap:VirtualizedContainerService.HintSize="1372,60" sap2010:WorkflowViewState.IdRef="Assign_65">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="s:String[]">[var_forAllReturn]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="s:String[]">[{"Monthly","Bi-Monthly","Bi Monthly","Quarterly","Bi Annually"}]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each for All Return #1" sap:VirtualizedContainerService.HintSize="1372,3575.2" sap2010:WorkflowViewState.IdRef="ForEach`1_6" Values="[var_forAllReturn]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="x:String">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="Body  for returnsss" sap:VirtualizedContainerService.HintSize="1336.8,3440.8" sap2010:WorkflowViewState.IdRef="Sequence_826">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Switch x:TypeArguments="x:String" DisplayName="Switch for All Returns" Expression="[item]" sap:VirtualizedContainerService.HintSize="1295.2,3348" sap2010:WorkflowViewState.IdRef="Switch`1_5">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Sequence x:Key="Monthly" DisplayName="Monthly return 01" sap:VirtualizedContainerService.HintSize="416.8,539.2" sap2010:WorkflowViewState.IdRef="Sequence_922">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Sequence sap2010:Annotation.AnnotationText="This sequence will fetch Monthly reports." DisplayName="Monthly Returns 02" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_921">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:LogMessage DisplayName="Log Message LM15" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_144" Level="Info" Message="[&quot;Monthly Report(XLSX)s start&quot;]" />
+                                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke MonthlyAPAuditTrailReport(INTL_TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_22" UnSafe="False" WorkflowFileName="Custom Workflows\MonthlyAPAuditTrailReport(INTL_TEX).xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                          <InArgument x:TypeArguments="x:Int32" x:Key="in_CrrentMonth">[out_CurrentMonth]</InArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:InvokeWorkflowFile>
+                                      <ui:LogMessage DisplayName="Log Message Lm#16" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_145" Level="Info" Message="[&quot;Monthly Reports(XLSX) end&quot;]" />
+                                    </Sequence>
+                                  </Sequence>
+                                  <Sequence x:Key="Bi-Monthly" sap2010:Annotation.AnnotationText="Bi Monthly Return" DisplayName="Bi Monthly Return" sap:VirtualizedContainerService.HintSize="836,688.8" sap2010:WorkflowViewState.IdRef="Sequence_925">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If Condition="[(out_CurrentMonth mod 2 ) = 0]" DisplayName="If for bi monthly reports" sap:VirtualizedContainerService.HintSize="794.4,596" sap2010:WorkflowViewState.IdRef="If_103">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="Bi Monthly(DEC-JAN)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_923">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message LM#17" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_146" Level="Info" Message="[&quot;Bi Monthly(XLSX) Start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiMonthlyAPAuditTrailsReport(DEC-JAN_INTL_TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_23" UnSafe="False" WorkflowFileName="Custom Workflows\BiMonthlyAPAuditTrailsReport(DEC-JAN_INTL_TEX).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message #19" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_147" Level="Info" Message="[&quot;Bi Monthly (XLSX) end&quot;]" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence DisplayName="Bi Monthly(JAN-FEB)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_924">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message #18" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_148" Level="Info" Message="[&quot;Bi Monthly(XLSX) Start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiMonthlyAPAuditTrailsReport(JAN-FEB_INTL_TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_24" UnSafe="False" WorkflowFileName="Custom Workflows\BiMonthlyAPAuditTrailsReport(JAN-FEB_INTL_TEX).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message #20" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_149" Level="Info" Message="[&quot;Bi Monthly (XLSX) end&quot;]" />
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                  <Sequence x:Key="Quarterly" sap2010:Annotation.AnnotationText="Sequence for Quartely AP VAT reports" DisplayName="Quartly Returns" sap:VirtualizedContainerService.HintSize="1255.2,931.2" sap2010:WorkflowViewState.IdRef="Sequence_929">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If sap2010:Annotation.AnnotationText="Condition for quarter" Condition="[( out_CurrentMonth  mod 3).Equals(1)]" DisplayName="If for quartely reports" sap:VirtualizedContainerService.HintSize="1213.6,838.4" sap2010:WorkflowViewState.IdRef="If_105">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence sap2010:Annotation.AnnotationText="Fetch qurtley reports INNTX" DisplayName="Quarter(JAN-MAR)" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_926">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message #21" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_150" Level="Info" Message="[&quot;QuartelyXLSX () Start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke QuarterlyAPAuditTrailsReport(JAN-MAR_INTL-TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_25" UnSafe="False" WorkflowFileName="Custom Workflows\QuarterlyAPAuditTrailsReport(JAN-MAR_INTL-TEX).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message#23" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_151" Level="Info" Message="[&quot;Quartely(XLSX) end&quot;]" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence sap2010:Annotation.AnnotationText="fetch the quartely INTX reports based on 445 calender." DisplayName="Quarter(FEB-APR)" sap:VirtualizedContainerService.HintSize="794.4,688.8" sap2010:WorkflowViewState.IdRef="Sequence_928">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <If sap2010:Annotation.AnnotationText="If 445" Condition="[(out_CurrentMonth mod 3).Equals(2)]" DisplayName="If 445" sap:VirtualizedContainerService.HintSize="752.8,596" sap2010:WorkflowViewState.IdRef="If_104">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <If.Then>
+                                              <Sequence DisplayName="Sequence quartRepo445Cal month is Feb" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_927">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <ui:LogMessage DisplayName="Log Message #22" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_152" Level="Info" Message="[&quot;QuartelyXLSX () Start&quot;]" />
+                                                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke QuarterlyAPAuditTrailsReport(FEB-APR_INTL-TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="Custom Workflows\QuarterlyAPAuditTrailsReport(FEB-APR_INTL-TEX).xaml">
+                                                  <ui:InvokeWorkflowFile.Arguments>
+                                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                                    <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                                  </ui:InvokeWorkflowFile.Arguments>
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                </ui:InvokeWorkflowFile>
+                                                <ui:LogMessage DisplayName="Log Message#24" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_153" Level="Info" Message="[&quot;Quartely(XLSX) end&quot;]" />
+                                              </Sequence>
+                                            </If.Then>
+                                            <If.Else>
+                                              <ui:LogMessage DisplayName="Log Message#25" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_154" Level="Info" Message="[&quot;No reports because not 445 calaender&quot;]">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                              </ui:LogMessage>
+                                            </If.Else>
+                                          </If>
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                  <Sequence x:Key="Bi Annually" sap2010:Annotation.AnnotationText="Fetch Bi Annual reports" DisplayName="Bi AnnuallyReturn" sap:VirtualizedContainerService.HintSize="794.4,688.8" sap2010:WorkflowViewState.IdRef="Sequence_931">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If sap2010:Annotation.AnnotationText="If for Bi annual" Condition="[out_CurrentMonth.Equals(01) or out_CurrentMonth.Equals(07)]" DisplayName="If for Bi Annual Reports" sap:VirtualizedContainerService.HintSize="752.8,596" sap2010:WorkflowViewState.IdRef="If_106">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence sap2010:Annotation.AnnotationText="Bi Annual report" DisplayName="Bi annual" sap:VirtualizedContainerService.HintSize="375.2,446.4" sap2010:WorkflowViewState.IdRef="Sequence_930">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message#26" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_155" Level="Info" Message="[&quot;Bi annual(XLSX) start&quot;]" />
+                                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke BiAnnualAPAuditTrailReports(INTL-TEX) workflow" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="Custom Workflows\BiAnnualAPAuditTrailReports(INTL-TEX).xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="s:DateTime" x:Key="in_DateforProcessing">[var_currentDate]</InArgument>
+                                              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Year">[out_Year]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_Month">[out_Month]</InArgument>
+                                              <InArgument x:TypeArguments="x:Int32" x:Key="in_CurrentMonth">[out_CurrentMonth]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_TransactionCode1]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_TransactionCode2]</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeWorkflowFile>
+                                          <ui:LogMessage DisplayName="Log Message#28" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_156" Level="Info" Message="[&quot;Bi annual(XLSX) end&quot;]" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <ui:LogMessage DisplayName="Log Message#27" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_157" Level="Info" Message="[&quot;No Reports&quot;]" />
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </Switch>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:ForEach>
+                      </Sequence>
+                    </Switch>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEach.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ForEach>
+          </Sequence>
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1584,445" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Catch APVAT Details " sap:VirtualizedContainerService.HintSize="376,376" sap2010:WorkflowViewState.IdRef="Sequence_89">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message#29" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[exception.Message]" />
+                <ui:LogMessage DisplayName="Log Message#30" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_94" Level="Info" Message="[&quot;rethrow 3&quot;]" />
+                <Rethrow DisplayName="Rethrow: APVAT Details Report" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Rethrow_12" />
+              </Sequence>
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
+    </Sequence>
+    <ui:LogMessage DisplayName="Log Message#31" sap:VirtualizedContainerService.HintSize="1660,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;SAP Processing End&quot;]" />
+    <ui:CloseApplication DisplayName="Close Application 'saplogon.exe SAP'" sap:VirtualizedContainerService.HintSize="1660,106" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
+      <ui:CloseApplication.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="c5df92418d2d30272a8f6ddf5004eea5" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='SAP Logon 740' /&gt;" WaitForReady="INTERACTIVE" />
+      </ui:CloseApplication.Target>
+    </ui:CloseApplication>
+  </Sequence>
+</Activity>

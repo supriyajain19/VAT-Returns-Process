@@ -1,0 +1,2 @@
+set PATH=%PATH%;C:\Program Files\7-Zip\
+7z a "\\crk-fps1.vmware.com\Finance\NCG\VAT returns data for KPMG\TEST\2019\0919.zip" "\\crk-fps1.vmware.com\Finance\NCG\VAT returns data for KPMG\TEST\2019\0919\"

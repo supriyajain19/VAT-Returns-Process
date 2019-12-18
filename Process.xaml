@@ -1,0 +1,469 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ProcessTransaction" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_ConfigFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_Year" Type="InArgument(x:String)" />
+    <x:Property Name="in_Month" Type="InArgument(x:String)" />
+    <x:Property Name="in_SmtpPort" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_SmtpServer" Type="InArgument(x:String)" />
+    <x:Property Name="in_SmtpPassword" Type="InArgument(x:String)" />
+    <x:Property Name="in_SmtpUserName" Type="InArgument(x:String)" />
+    <x:Property Name="in_BAS" Type="InArgument(x:String)" />
+    <x:Property Name="in_SupportBAS" Type="InArgument(x:String)" />
+    <x:Property Name="in_WorkspaceUrl" Type="InArgument(x:String)" />
+    <x:Property Name="in_KpmgHost" Type="InArgument(x:String)" />
+    <x:Property Name="in_KpmgPort" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_KpmgRemotePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_KpmgUserName" Type="InArgument(x:String)" />
+    <x:Property Name="in_KpmgPassword" Type="InArgument(x:String)" />
+    <x:Property Name="in_MailRecipient" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>897.6,2790.4</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Description: In this file all other process specific files will be invoked. If an application exception occurs, the current transaction can be retried. If a BRE is thrown, the transaction will be skipped. Can be a flowchart or sequence. " DisplayName="ProcessTransaction" sap:VirtualizedContainerService.HintSize="877.6,2730.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="s:DateTime" Name="var_currentDate" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence DisplayName="Process Activities" sap:VirtualizedContainerService.HintSize="836,2637.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence DisplayName="Sequence-process xaml" sap:VirtualizedContainerService.HintSize="794.4,2412" sap2010:WorkflowViewState.IdRef="Sequence_9">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="x:String" Name="var_mailBody" />
+        </Sequence.Variables>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:LogMessage DisplayName="Log Message=process transaction start" sap:VirtualizedContainerService.HintSize="752.8,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;*******************Process Transaction Starts Here*******************&quot;]" />
+        <Flowchart DisplayName="VAT Return Process" sap:VirtualizedContainerService.HintSize="752.8,1205.6" sap2010:WorkflowViewState.IdRef="Flowchart_5">
+          <Flowchart.Variables>
+            <Variable x:TypeArguments="x:Int32" Name="var_currentMonth" />
+          </Flowchart.Variables>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <av:Point x:Key="ShapeLocation">0,2.5</av:Point>
+              <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">60,39.8333333333333 90,39.8333333333333 90,40 220,40</av:PointCollection>
+              <x:Double x:Key="Width">680</x:Double>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              <x:Double x:Key="Height">1169</x:Double>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Flowchart.StartNode>
+            <x:Reference>__ReferenceID10</x:Reference>
+          </Flowchart.StartNode>
+          <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_41">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">410,414.333333333333</av:Point>
+                <av:Size x:Key="ShapeSize">200,128.8</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">510,543.133333333333 510,574.333333333333</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Fetch all the AP Vat details report monthly,quartely,bimonthly and Bi annually." DisplayName="Invoke APVAtdetails workflow" sap:VirtualizedContainerService.HintSize="200,128.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_38" UnSafe="False" WorkflowFileName="Custom Workflows\APVATDetailsReport.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode2">[in_Config("SAP_TransactionCode2").ToString]</InArgument>
+                <InArgument x:TypeArguments="s:DateTime" x:Key="var_currentDate">[var_currentDate]</InArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="out_Year">[in_Year]</OutArgument>
+                <OutArgument x:TypeArguments="x:String" x:Key="out_Month">[in_Month]</OutArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_TransactionCode1">[in_Config("SAP_TransactionCode1").ToString]</InArgument>
+                <OutArgument x:TypeArguments="x:Int32" x:Key="out_CurrentMonth">[var_currentMonth]</OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeWorkflowFile>
+            <FlowStep.Next>
+              <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_40">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <av:Point x:Key="ShapeLocation">410,574.333333333333</av:Point>
+                    <av:Size x:Key="ShapeSize">200,128.8</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">510,703.133333333333 510,724</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="It will login to oracle through workspace and then download all UK &amp; NON-UK sales details reports from it." DisplayName="Invoke OracleEBSLogin workflow" sap:VirtualizedContainerService.HintSize="200,128.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_39" UnSafe="False" WorkflowFileName="Custom Workflows\OracleEBSLogin.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                    <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_WorkspaceUrl">[in_WorkspaceUrl]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:InvokeWorkflowFile>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_43">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">410,724</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52.8</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">510,776.8 510,796</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke OracleProcessing workflow" sap:VirtualizedContainerService.HintSize="200,52.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_43" UnSafe="False" WorkflowFileName="Custom Workflows\OracleProcessing.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="s:DateTime" x:Key="var_currentDate">[var_currentDate]</InArgument>
+                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                        <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_WorkspaceUrl">[in_WorkspaceUrl]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:InvokeWorkflowFile>
+                    <FlowStep.Next>
+                      <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_39">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">410,796</av:Point>
+                            <av:Size x:Key="ShapeSize">200,144.8</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">510,940.8 510,1104.4 410,1104.4</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="It will login to etracker through workspace then download AP invoices reports on monthly and quartely basics." DisplayName="Invoke ETrackerLogin (2) workflow" sap:VirtualizedContainerService.HintSize="200,144.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_40" UnSafe="False" WorkflowFileName="Custom Workflows/ETrackerLogin.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="s:DateTime" x:Key="var_currentDate">[var_currentDate]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                            <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_WorkspaceUrl">[in_WorkspaceUrl]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <FlowStep.Next>
+                          <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_37">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">210,1064</av:Point>
+                                <av:Size x:Key="ShapeSize">200,80.8</av:Size>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Uploads Files To KPMG" DisplayName="Invoke KPMGUploadFiles workflow" sap:VirtualizedContainerService.HintSize="200,80.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_42" UnSafe="False" WorkflowFileName="Custom Workflows\KPMGUploadFiles.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                                <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_KpmgHost">[in_KpmgHost]</InArgument>
+                                <InArgument x:TypeArguments="x:Int32" x:Key="in_KpmgPort">[in_KpmgPort]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_KpmgRemotePath">[in_KpmgRemotePath]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_KpmgUserName">[in_KpmgUserName]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_KpmgPassword">[in_KpmgPassword]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:InvokeWorkflowFile>
+                          </FlowStep>
+                        </FlowStep.Next>
+                      </FlowStep>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowStep.Next>
+          </FlowStep>
+          <x:Reference>__ReferenceID0</x:Reference>
+          <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_38">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">10,561</av:Point>
+                <av:Size x:Key="ShapeSize">200,96.8</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">110,657.8 110,1104.4 210,1104.4</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Login to sharepoint and pull all reports one by one ." DisplayName="Invoke SharePointLogin workflow" sap:VirtualizedContainerService.HintSize="200,96.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_41" UnSafe="False" WorkflowFileName="Custom Workflows\SharePointLogin.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="s:DateTime" x:Key="var_currentDate">[var_currentDate]</InArgument>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeWorkflowFile>
+            <FlowStep.Next>
+              <x:Reference>__ReferenceID1</x:Reference>
+            </FlowStep.Next>
+          </FlowStep>
+          <x:Reference>__ReferenceID2</x:Reference>
+          <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_42">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">410,291</av:Point>
+                <av:Size x:Key="ShapeSize">200,96.8</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">510,387.8 510,414.333333333333</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="This will login to SAP and will go to home page of SAP ." DisplayName="Invoke SAPLogin workflow" sap:VirtualizedContainerService.HintSize="200,96.8" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_37" UnSafe="False" WorkflowFileName="Custom Workflows\SAPLogin.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                <InArgument x:TypeArguments="x:Int32" x:Key="in_SmtpPort">[in_SmtpPort]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpServer">[in_SmtpServer]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpUserName">[in_SmtpUserName]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SmtpPassword">[in_SmtpPassword]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_BAS">[in_BAS]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_SupportBAS">[in_SupportBAS]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_Year">[in_Year]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_Month">[in_Month]</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_MailRecipient">[in_MailRecipient]</InArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeWorkflowFile>
+            <FlowStep.Next>
+              <x:Reference>__ReferenceID3</x:Reference>
+            </FlowStep.Next>
+          </FlowStep>
+          <x:Reference>__ReferenceID1</x:Reference>
+          <x:Reference>__ReferenceID4</x:Reference>
+          <FlowStep x:Name="__ReferenceID10" sap2010:WorkflowViewState.IdRef="FlowStep_45">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">220,9</av:Point>
+                <av:Size x:Key="ShapeSize">262.4,60</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">351,69 351,99 340.166666666667,99 340.166666666667,116.666666666667</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Assign_CurrenDate" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+              <Assign.To>
+                <OutArgument x:TypeArguments="s:DateTime">[var_currentDate]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="s:DateTime">[now.Date]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <FlowStep.Next>
+              <FlowDecision x:Name="__ReferenceID7" Condition="[var_currentDate.Day.Equals(7)]" DisplayName="Flow Decision" sap:VirtualizedContainerService.HintSize="79.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <av:Point x:Key="ShapeLocation">300.666666666667,116.666666666667</av:Point>
+                    <av:Size x:Key="ShapeSize">79.2,87.2</av:Size>
+                    <av:PointCollection x:Key="TrueConnector">300.666666666667,160 110,160 110,224.02</av:PointCollection>
+                    <av:PointCollection x:Key="FalseConnector">379.333333333334,160 510,160 510,213.666666666667</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <FlowDecision.True>
+                  <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_46">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">10,224.02</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52.8</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">110,276.02 110,561</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message-sharepoint login" sap:VirtualizedContainerService.HintSize="200,52.8" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;SharePointt Login When Day is 7&quot;]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:LogMessage>
+                    <FlowStep.Next>
+                      <x:Reference>__ReferenceID5</x:Reference>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowDecision.True>
+                <FlowDecision.False>
+                  <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_47">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">410,213.666666666667</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52.8</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">510,266.466666666667 510,291</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message-download of report on 1 day." sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Downloading of reports on  1 Day of month&quot;]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:LogMessage>
+                    <FlowStep.Next>
+                      <x:Reference>__ReferenceID6</x:Reference>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowDecision.False>
+              </FlowDecision>
+            </FlowStep.Next>
+          </FlowStep>
+          <x:Reference>__ReferenceID7</x:Reference>
+          <x:Reference>__ReferenceID8</x:Reference>
+          <x:Reference>__ReferenceID9</x:Reference>
+        </Flowchart>
+        <ui:LogMessage DisplayName="Log Message-kpmg section complete" sap:VirtualizedContainerService.HintSize="752.8,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot; ------ KPMG Section Completed -- Sending Emails to Stakeholders&quot;]" />
+        <Assign DisplayName="Assign Var Mail Body " sap:VirtualizedContainerService.HintSize="752.8,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[var_mailBody]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String" xml:space="preserve">["&lt;html&gt;&lt;body &gt;&lt;/body  lang=\EN-US\ &gt;&lt;div&gt;&lt;p&gt;Hi All,&lt;/p&gt;&lt;p&gt;"+"The current run of the Process is completed Successfully.&lt;/p&gt;&lt;p&gt;"+" The execution output is placed here: "+in_config("FilePath").ToString+"\"+in_Year.ToString+"\"+in_Month.ToString+".zip"+"&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Regards,&lt;/p&gt;&lt;p&gt;RPA CoE Bot&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"]</InArgument>
+          </Assign.Value>
+        </Assign>
+        <ui:SendMail Bcc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" TimeoutMS="{x:Null}" Body="[var_mailBody]" Cc="[in_BAS]" DisplayName="Send SMTP Mail Message to business user" Email="[in_SmtpUserName]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="752.8,146.4" sap2010:WorkflowViewState.IdRef="SendMail_4" IsBodyHtml="True" Password="[in_SmtpPassword]" Port="[in_SmtpPort]" SecureConnection="Auto" Server="[in_SmtpServer]" Subject="[in_Config(&quot;ProcessSuccessMailSubject&quot;).ToString+&quot;|| &quot; + in_config(&quot;BusinessProcessName&quot;).ToString]" To="[in_MailRecipient]">
+          <ui:SendMail.Files>
+            <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+          </ui:SendMail.Files>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </ui:SendMail>
+        <If Condition="[var_currentDate.Month.Equals(01)]" DisplayName="If to chnage 445 date" sap:VirtualizedContainerService.HintSize="752.8,521.6" sap2010:WorkflowViewState.IdRef="If_1">
+          <If.Then>
+            <Sequence DisplayName="Sequence : Send Mail TO CHange Date In COnfig for 445 Cal" sap:VirtualizedContainerService.HintSize="375.2,372" sap2010:WorkflowViewState.IdRef="Sequence_12">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:SendMail Bcc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" TimeoutMS="{x:Null}" Body="[&quot;Dear Team,&quot;+Environment.NewLine+Environment.NewLine+&quot;May you please Change the Dates in Config File for next fiscal year(445 Calender)&quot;+Environment.NewLine+in_ConfigFilePath+Environment.NewLine+Environment.NewLine+&quot;Regards,&quot;+Environment.NewLine+&quot;RPA CoE Bot&quot;]" Cc="[in_BAS.ToString]" DisplayName="Send SMTP Mail Message to business user" Email="[in_SmtpUserName]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="333.6,146.4" sap2010:WorkflowViewState.IdRef="SendMail_6" IsBodyHtml="True" Password="[in_SmtpPassword]" Port="[in_SmtpPort]" SecureConnection="Auto" Server="[in_SmtpServer]" Subject="[in_config(&quot;BusinessProcessName&quot;).ToString+&quot; || &quot; + in_Config(&quot;ChangeDateInConfig445CalendarSubject&quot;).ToString]" To="[in_BAS]">
+                <ui:SendMail.Files>
+                  <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                </ui:SendMail.Files>
+              </ui:SendMail>
+              <ui:LogMessage DisplayName="Log Message: Fiscal Dates are  not Found" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Fiscal Dates are  not Found&quot;]" />
+            </Sequence>
+          </If.Then>
+          <If.Else>
+            <ui:LogMessage DisplayName="Log Message:Fiscal Dates are Found" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Fiscal Dates are Found&quot;]" />
+          </If.Else>
+        </If>
+      </Sequence>
+      <ui:LogMessage DisplayName="Log Message-process transaction end" sap:VirtualizedContainerService.HintSize="794.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;*******************Process Transaction Ends Here*******************&quot;]" />
+    </Sequence>
+  </Sequence>
+</Activity>
